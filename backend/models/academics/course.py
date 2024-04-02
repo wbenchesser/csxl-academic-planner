@@ -20,3 +20,4 @@ class Course(BaseModel):
     title: str
     description: str
     credit_hours: int
+    prereqs: str

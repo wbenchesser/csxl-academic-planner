@@ -1,6 +1,5 @@
 """Entrypoint of backend API exposing the FastAPI `app` to be served by an application server such as uvicorn."""
 
-
 from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -20,7 +19,7 @@ from .api import (
     room,
 )
 from .api.coworking import status, reservation, ambassador, operating_hours
-from .api.academics import term, course, section
+from .api.academics import term, course, section, planner
 from .api.admin import users as admin_users
 from .api.admin import roles as admin_roles
 from .services.exceptions import (
@@ -75,6 +74,7 @@ feature_apis = [
     admin_roles,
     term,
     course,
+    planner,
     section,
     room,
 ]

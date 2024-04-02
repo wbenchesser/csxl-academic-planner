@@ -1,0 +1,37 @@
+<!-- … -->
+
+<mat-card>
+  <ng-container *ngTemplateOutlet="tmpl; context: { $implicit: 'My Classes' }">
+  </ng-container>
+</mat-card>
+
+<!-- … -->
+<mat-card>
+  <ng-container
+    *ngTemplateOutlet="tmpl; context: { $implicit: '+ Add more courses' }">
+  </ng-container>
+</mat-card>
+<!-- … -->
+<mat-card>
+  <ng-container
+    *ngTemplateOutlet="tmpl; context: { $implicit: 'Major Planning' }">
+    <div class="course-cards">
+      <course-card
+        class="card"
+        [course]="course"
+        [profile]="profile"
+        *ngFor="let course of courses" />
+    </div>
+  </ng-container>
+  <div class="course-cards">
+    <course-card
+      class="card"
+      [course]="course"
+      [profile]="profile"
+      *ngFor="let course of courses" />
+  </div>
+</mat-card>
+
+<ng-template #tmpl let-text>
+  <h1>{{ text }}</h1>
+</ng-template>

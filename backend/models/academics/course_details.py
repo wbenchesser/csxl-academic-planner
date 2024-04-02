@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+
+from backend.models.user import User
 from .section import Section
 from .course import Course
 
@@ -17,3 +19,4 @@ class CourseDetails(Course):
     """
 
     sections: list[Section]
+    users: list[User]

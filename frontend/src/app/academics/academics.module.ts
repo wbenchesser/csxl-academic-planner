@@ -22,11 +22,14 @@ import { AdminCourseComponent } from './academics-admin/course/admin-course.comp
 import { AdminTermComponent } from './academics-admin/term/admin-term.component';
 import { CourseEditorComponent } from './academics-admin/course/course-editor/course-editor.component';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TermEditorComponent } from './academics-admin/term/term-editor/term-editor.component';
 import { SectionEditorComponent } from './academics-admin/section/section-editor/section-editor.component';
 import { AdminRoomComponent } from './academics-admin/room/admin-room.component';
 import { RoomEditorComponent } from './academics-admin/room/room-editor/room-editor.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AcademicPlannerComponent } from './academic-planner/academic-planner.component';
+import { CourseCard } from './academic-planner/course-card.widget';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     TermEditorComponent,
     SectionEditorComponent,
     AdminRoomComponent,
-    RoomEditorComponent
+    RoomEditorComponent,
+    AcademicPlannerComponent,
+    CourseCard
   ],
   imports: [
     AcademicsRoutingModule,
@@ -58,6 +63,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ReactiveFormsModule,
     MatTabsModule,
     MatInputModule,
+    MatTooltipModule,
     MatCheckboxModule,
     AsyncPipe
   ]

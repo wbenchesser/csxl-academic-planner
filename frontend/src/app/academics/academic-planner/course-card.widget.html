@@ -1,0 +1,34 @@
+<!-- eslint-disable prettier/prettier -->
+
+<mat-card class="card" appearance="outlined">
+    <!-- Course Name -->
+    <mat-card-content class="name">
+      <div class="left-container">
+        <!-- Course Code -->
+        <mat-card-title
+          class="number"
+          [matTooltip]="course.title"
+          matTooltipPosition="above">
+          {{course.subject_code}} {{course.number}}
+        </mat-card-title>
+        
+      </div>
+      <div class="description">
+        <p class="longTooltip"
+          [matTooltip]="course.description"
+          matTooltipPosition="right">
+          Details
+        </p>
+      </div>
+
+      <div *ngIf="!isAdded; else elseBlock">
+        <button mat-raised-button (click)="addCourse()">Add Course</button>
+      </div>
+
+      <ng-template #elseBlock>
+        <button mat-raised-button (click)="removeCourse()">Remove Course</button>
+      </ng-template>
+
+    </mat-card-content>
+  </mat-card>
+  

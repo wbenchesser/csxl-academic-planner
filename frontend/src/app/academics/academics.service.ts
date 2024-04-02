@@ -187,4 +187,44 @@ export class AcademicsService {
   deleteRoom(room: Room) {
     return this.http.delete(`/api/academics/room/${room.id}`);
   }
+
+  /** Add a course to user's list in planner
+   * @param course: class to add
+   * @returns
+   */
+  addPlannerCourse(course: Course) {
+    console.log(`AcademicService: addPlannerCourse called with ${course}`);
+
+    const dummyCourse = {
+      id: 'identification',
+      subject_code: 'subject code',
+      number: '423',
+      title: 'Foundations of Software engineering',
+      description: 'Kris Jordan mode',
+      credit_hours: '3',
+      sections: null
+    };
+
+    console.log(`Simulated add successful. Course data: ${dummyCourse}`);
+  }
+
+  /** Delete a course from a user's list in planner
+   * @param course
+   * @returns
+   */
+  deletePlannerCourse(course: Course) {
+    console.log(`AcademicService: deletePlannerCourse called with ${course}`);
+
+    const dummyCourse = {
+      id: 'identification',
+      subject_code: 'subject code',
+      number: '423',
+      title: 'Foundations of Software engineering',
+      description: 'Kris Jordan mode',
+      credit_hours: '3',
+      sections: null
+    };
+
+    console.log(`Simulated delete successful. Course data: ${dummyCourse}`);
+  }
 }

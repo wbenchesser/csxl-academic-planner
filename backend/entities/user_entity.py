@@ -4,10 +4,14 @@ from sqlalchemy import Integer, String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 
+from backend.entities.academics.course_entity import CourseEntity
 from backend.entities.academics.section_member_entity import SectionMemberEntity
 from backend.models.academics.section_member import SectionMember
 from .entity_base import EntityBase
 from .user_role_table import user_role_table
+from .user_course_table import user_course_table
+
+# from .user_course_entity import UserCourseEntity
 from ..models import User
 
 __authors__ = ["Kris Jordan", "Matt Vu"]
@@ -61,6 +65,16 @@ class UserEntity(EntityBase):
 
     # Section relations that the user is a part of.
     sections: Mapped[list["SectionMemberEntity"]] = relationship(back_populates="user")
+
+    # All of the selected courses for the given user.
+    # NOTE: This field establishes a many-to-many relationship between the users and courses table.
+    #       and uses the "user_course_entity" table as the join table.
+    # planner: Mapped[list["UserCourseEntity"]] = relationship(
+    #     back_populates="user", cascade="all,delete"
+    # )
+    courses: Mapped[list["CourseEntity"]] = relationship(
+        secondary=user_course_table, back_populates="users"
+    )
 
     @classmethod
     def from_model(cls, model: User) -> Self:

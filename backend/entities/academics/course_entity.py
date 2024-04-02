@@ -3,9 +3,11 @@
 from typing import Self
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from ..entity_base import EntityBase
 from ...models.academics import Course
 from ...models.academics import CourseDetails
+from ..user_course_table import user_course_table
 
 __authors__ = ["Ajay Gandecha"]
 __copyright__ = "Copyright 2023"
@@ -34,10 +36,19 @@ class CourseEntity(EntityBase):
     description: Mapped[str] = mapped_column(String, default="")
     # Credit hours for a course (-1 = variable / not set)
     credit_hours: Mapped[int] = mapped_column(Integer, default=-1)
+    # Prerequisites for the course (for example, a prereq for COMP 210 would be COMP 110)
+    prereqs: Mapped[str] = mapped_column(String, default="")
 
     # NOTE: This field establishes a one-to-many relationship between the course and section tables.
     sections: Mapped[list["SectionEntity"]] = relationship(
         back_populates="course", cascade="all,delete"
+    )
+
+    # planner: Mapped[list["UserCourseEntity"]] = relationship(
+    #     back_populates="course", cascade="all,delete"
+    # )
+    users: Mapped[list["UserEntity"]] = relationship(
+        secondary=user_course_table, back_populates="courses"
     )
 
     @classmethod
@@ -57,6 +68,7 @@ class CourseEntity(EntityBase):
             title=model.title,
             description=model.description,
             credit_hours=model.credit_hours,
+            prereqs=model.prereqs,
         )
 
     def to_model(self) -> Course:
@@ -73,6 +85,7 @@ class CourseEntity(EntityBase):
             title=self.title,
             description=self.description,
             credit_hours=self.credit_hours,
+            prereqs=self.prereqs,
         )
 
     def to_details_model(self) -> CourseDetails:
@@ -89,5 +102,7 @@ class CourseEntity(EntityBase):
             title=self.title,
             description=self.description,
             credit_hours=self.credit_hours,
+            prereqs=self.prereqs,
             sections=[section.to_model() for section in self.sections],
+            users=[user.to_model() for user in self.users],
         )
