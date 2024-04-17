@@ -18,9 +18,10 @@ Aristotle Bernard, Ben Chesser, Alexandra Marum, Asim Raja
 
 ### Reasonable, achievable number
 
-- As Sally Student, I want to be able to check which computer science classes I can take after marking down which I have taken already.
-- As Sally Student, I want to be able to find out which classes I still have left to take in the computer science department for my major, and which ones I have all the prerequisites for.
+- As Sally Student, I want to be able to check what computer science classes are available and add them to my list of courses associated with my account.
+- As Sally Student, I want to be able to see the prerequisites for a computer science course, and be able to add it based on whether or not I have those prereqs.
   - CompSci prerequisites only given scope
+- As Sally Student, I want the UI to give me more organized information about the classes offered to me.
 - As Sally Student, I want to be able to discover what classes I need for my computer science [BS or BA] major.
 - As Sally Student, I want to see all the computer science courses I need to take to qualify for a desired class.
 - As Amy Ambassador, I want to be able to do everything Sally Student can for any student given their PID.\*

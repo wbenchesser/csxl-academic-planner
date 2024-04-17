@@ -16,9 +16,9 @@ openapi_tags = {
 }
 
 
-@api.post("/{id}", response_model=None, tags=["Academics"])
-def new_term(
-    id: str,
+@api.post("/{course_id}", response_model=None, tags=["Academics"])
+def add_course(
+    course_id: str,
     subject: User = Depends(registered_user),
     planner_service: PlannerService = Depends(),
 ):
@@ -30,13 +30,13 @@ def new_term(
     Returns:
         Course: the added course? maybe?
     """
-    return planner_service.add_user_course(subject, id)
+    return planner_service.add_user_course(subject, course_id)
     # This is copied from the term.py file and tweaked
 
 
-@api.delete("/{id}", response_model=None, tags=["Academics"])
-def delete_term(
-    id: str,
+@api.delete("/{course_id}", response_model=None, tags=["Academics"])
+def remove_course(
+    course_id: str,
     subject: User = Depends(registered_user),
     planner_service: PlannerService = Depends(),
 ):
@@ -46,5 +46,40 @@ def delete_term(
     PlannerService is not yet defined. Delete this comment when resolved, aka if
     PlannerService has no yellow line
     """
-    return planner_service.delete_user_course(subject, id)
+    return planner_service.delete_user_course(subject, course_id)
     # This is copied from the term.py file and tweaked
+
+
+@api.get("/{course_id}", response_model=None, tags=["Academics"])
+def is_course_added(
+    course_id: str,
+    subject: User = Depends(registered_user),
+    planner_service: PlannerService = Depends(),
+):
+    """
+    Checks whether a course is added to the User's list,
+    so the card-widget knows what button to display
+    """
+    return planner_service.is_course_added(subject, course_id)
+
+
+@api.get("", response_model=None, tags=["Academics"])
+def get_user_courses(
+    subject: User = Depends(registered_user),
+    planner_service: PlannerService = Depends(),
+):
+    """
+    Returns User's list of courses as Course Models
+    """
+    return planner_service.get_user_courses(subject)
+  
+@api.get("/prereqs/{course_id}", response_model=None, tags=["Academics"])
+def get_prereq_status(
+    course_id: str,
+    subject: User = Depends(registered_user),
+    planner_service: PlannerService = Depends(),
+):
+    """
+    Returns whether a given course's prereqs are met based on the user's courses.
+    """
+    return planner_service.get_prereq_status(subject, course_id)

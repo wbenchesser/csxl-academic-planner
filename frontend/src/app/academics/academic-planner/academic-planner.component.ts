@@ -7,6 +7,7 @@ import { NagivationAdminGearService } from 'src/app/navigation/navigation-admin-
 import { profileResolver } from '/workspace/frontend/src/app/profile/profile.resolver';
 import { courseResolver } from '../academics.resolver';
 import { Profile } from 'src/app/models.module';
+import { UserAdminService } from 'src/app/admin/users/user-admin.service';
 
 @Component({
   selector: 'app-academic-planner',
@@ -24,6 +25,9 @@ export class AcademicPlannerComponent {
 
   /** Store a list of Courses locally taken from the Database */
   public courses!: Course[];
+  public userCourses!: Course[];
+  public availableCourses: Course[] = [];
+  public unavailableCourses: Course[] = [];
   /** Store the currently-logged-in user's profile.  */
   public profile: Profile;
 
@@ -38,7 +42,10 @@ export class AcademicPlannerComponent {
       profile: Profile;
     };
     this.profile = data.profile;
-    academicsService.getCourses().subscribe((res) => (this.courses = res));
+    academicsService.getCourses().subscribe((res) => {
+      this.courses = res;
+      this.populateCourseAvailability();
+    });
   }
 
   ngOnInit() {
@@ -48,5 +55,51 @@ export class AcademicPlannerComponent {
       '',
       'academics/admin/course'
     );
+    this.getUserCourses();
+  }
+
+  getUserCourses() {
+    this.academicsService.getUserCourses().subscribe((value) => {
+      this.userCourses = value;
+      this.populateCourseAvailability();
+    });
+  }
+
+  populateCourseAvailability() {
+    for (var i = 0; i < this.courses?.length; i++) {
+      ((index) => {
+        this.academicsService
+          .arePrereqsMet(this.courses[index])
+          .subscribe((value) => {
+            if (
+              value &&
+              this.userCourses.find((x) => x.id === this.courses[index].id)
+            ) {
+              // userCourses already populated
+              console.log('found in userCourses!');
+            } else if (
+              value &&
+              //!this.availableCourses.includes(this.courses[index])
+              !this.availableCourses.find(
+                (x) => x.id === this.courses[index].id
+              )
+            ) {
+              this.availableCourses.push(this.courses[index]);
+            } else if (
+              !value &&
+              //!this.availableCourses.includes(this.courses[index])
+              !this.availableCourses.find(
+                (x) => x.id === this.courses[index].id
+              )
+            ) {
+              this.unavailableCourses.push(this.courses[index]);
+            }
+          });
+      })(i);
+    }
+  }
+
+  handleButtonClick() {
+    this.getUserCourses();
   }
 }

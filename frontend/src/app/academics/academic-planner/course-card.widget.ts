@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Course } from '../academics.models';
 import { Profile } from '../../models.module';
 import { AcademicsService } from '../academics.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'course-card',
@@ -17,7 +18,13 @@ export class CourseCard {
   @Input() profilePermissions!: Map<number, number>;
 
   /** Is course added to profile? */
-  isAdded: boolean;
+  isAdded: boolean = false;
+
+  /** Should this card display the add/remove button? */
+  @Input() showAddRemoveButton!: boolean;
+
+  /** When button in course-card clicked, emit event */
+  @Output() public clicked = new EventEmitter();
 
   /**
    * Determines whether or not the tooltip on the card is disabled
@@ -29,14 +36,31 @@ export class CourseCard {
   }
 
   addCourse() {
-    this.service.addPlannerCourse(this.course);
+    this.service.addPlannerCourse(this.course).subscribe((value) => {
+      console.log('add course subscribed');
+      this.isCourseAdded();
+      this.clicked.emit();
+    });
   }
 
   removeCourse() {
-    this.service.deletePlannerCourse(this.course);
+    this.service.deletePlannerCourse(this.course).subscribe((value) => {
+      console.log('remove course subscribed');
+      this.isCourseAdded();
+      this.clicked.emit();
+    });
   }
 
-  constructor(private service: AcademicsService) {
-    this.isAdded = false;
+  isCourseAdded() {
+    this.service.isCourseAdded(this.course).subscribe((value) => {
+      this.isAdded = value;
+    });
   }
+
+  // on initialization of page, calls isCourseAdded
+  ngOnInit(): void {
+    this.isCourseAdded();
+  }
+
+  constructor(private service: AcademicsService) {}
 }

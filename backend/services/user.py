@@ -6,11 +6,15 @@ The User Service provides access to the User model and its associated database o
 from fastapi import Depends
 from sqlalchemy import select, or_, func, cast, String
 from sqlalchemy.orm import Session
+
+from backend.entities import user_course_table
+from backend.entities.academics.course_entity import CourseEntity
 from ..database import db_session
 from ..models import User, UserDetails, Paginated, PaginationParams
 from ..entities import UserEntity
 from .exceptions import ResourceNotFoundException
 from .permission import PermissionService
+from typing import List
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
@@ -84,7 +88,7 @@ class UserService:
             UserEntity.last_name.ilike(f"%{query}%"),
             UserEntity.onyen.ilike(f"%{query}%"),
             UserEntity.email.ilike(f"%{query}%"),
-            cast(UserEntity.pid, String).ilike(f"%{query}%")
+            cast(UserEntity.pid, String).ilike(f"%{query}%"),
         )
         statement = statement.where(criteria).limit(10)
         entities = self._session.execute(statement).scalars()
@@ -183,3 +187,30 @@ class UserService:
         entity.update(user)
         self._session.commit()
         return entity.to_model()
+
+    def get_courses(self, subject: User) -> List[CourseEntity]:
+        """Retrieves a User's list of courses.
+
+        For this method, imported List. We okay with that?
+
+        Args:
+            subject: The user performing the action.
+
+        Returns:
+            List of CourseEntities.
+
+        Raises:
+            PermissionError: If the subject does not have permission to retrieve
+            the course data.
+        """
+        # Joins CourseEntity and UserEntity via user_course_table association table.
+        # Queries CourseEntities in user_course_table and filters by userid.
+
+        query = (
+            self._session.query(CourseEntity)
+            .join(user_course_table)
+            .join(UserEntity)
+            .filter(UserEntity.id == subject.id)
+        )
+        courses = query.all()
+        return courses

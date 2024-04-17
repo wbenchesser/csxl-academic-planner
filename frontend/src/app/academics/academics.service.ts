@@ -202,10 +202,13 @@ export class AcademicsService {
       title: 'Foundations of Software engineering',
       description: 'Kris Jordan mode',
       credit_hours: '3',
-      sections: null
+      sections: null,
+      prereqs: ''
     };
-
-    console.log(`Simulated add successful. Course data: ${dummyCourse}`);
+    return this.http.post<Course>(
+      `/api/academics/planner/${course.id}`,
+      course
+    );
   }
 
   /** Delete a course from a user's list in planner
@@ -222,9 +225,38 @@ export class AcademicsService {
       title: 'Foundations of Software engineering',
       description: 'Kris Jordan mode',
       credit_hours: '3',
-      sections: null
+      sections: null,
+      prereqs: ''
     };
+    return this.http.delete(`/api/academics/planner/${course.id}`);
+  }
 
-    console.log(`Simulated delete successful. Course data: ${dummyCourse}`);
+  /** Checks for the widget if a course is already added
+   * @param course
+   * @returns Observable<boolean>
+   */
+  isCourseAdded(course: Course) {
+    console.group(`AcademicService: isCourseAdded called`);
+
+    return this.http.get<boolean>(`/api/academics/planner/${course.id}`);
+  }
+
+  /** Checks for the widget if a course is already added
+   * @param
+   * @returns {Observable<Course[]>}
+   */
+  getUserCourses() {
+    return this.http.get<Course[]>('/api/academics/planner');
+  }
+
+  /** Checks for the widget if a course is already added
+   * @param
+   * @returns {Observable<boolean>}
+   */
+  arePrereqsMet(course: Course) {
+    console.log('prereqs API called');
+    return this.http.get<boolean>(
+      `/api/academics/planner/prereqs/${course.id}`
+    );
   }
 }

@@ -13,6 +13,7 @@ import { SectionEditorComponent } from './academics-admin/section/section-editor
 import { AdminRoomComponent } from './academics-admin/room/admin-room.component';
 import { RoomEditorComponent } from './academics-admin/room/room-editor/room-editor.component';
 import { AcademicPlannerComponent } from './academic-planner/academic-planner.component';
+import { AcademicCourseSelectComponent } from './academic-planner/academic-course-select/academic-course-select.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
   TermEditorComponent.Route,
   SectionEditorComponent.Route,
   RoomEditorComponent.Route,
-  AcademicPlannerComponent.Route
+  AcademicPlannerComponent.Route,
+  AcademicCourseSelectComponent.Route
 ];
 
 @NgModule({

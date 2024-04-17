@@ -1,34 +1,49 @@
-<!-- … -->
-
 <mat-card>
   <ng-container *ngTemplateOutlet="tmpl; context: { $implicit: 'My Classes' }">
-  </ng-container>
-</mat-card>
-
-<!-- … -->
-<mat-card>
-  <ng-container
-    *ngTemplateOutlet="tmpl; context: { $implicit: '+ Add more courses' }">
-  </ng-container>
-</mat-card>
-<!-- … -->
-<mat-card>
-  <ng-container
-    *ngTemplateOutlet="tmpl; context: { $implicit: 'Major Planning' }">
-    <div class="course-cards">
-      <course-card
-        class="card"
-        [course]="course"
-        [profile]="profile"
-        *ngFor="let course of courses" />
-    </div>
   </ng-container>
   <div class="course-cards">
     <course-card
       class="card"
       [course]="course"
       [profile]="profile"
-      *ngFor="let course of courses" />
+      *ngFor="let course of userCourses"
+      (clicked)="handleButtonClick()" />
+  </div>
+</mat-card>
+<mat-card>
+  <button
+    mat-stroked-button
+    class="link-button"
+    routerLink="/academics/planner/select">
+    Edit Classes
+  </button>
+</mat-card>
+
+<mat-card>
+  <ng-container
+    *ngTemplateOutlet="tmpl; context: { $implicit: 'Available Classes' }">
+  </ng-container>
+  <div class="course-cards">
+    <course-card
+      class="card"
+      [course]="course"
+      [profile]="profile"
+      *ngFor="let course of availableCourses"
+      (clicked)="handleButtonClick()" />
+  </div>
+</mat-card>
+
+<mat-card>
+  <ng-container
+    *ngTemplateOutlet="tmpl; context: { $implicit: 'Unavailable Classes' }">
+  </ng-container>
+  <div class="course-cards">
+    <course-card
+      class="card"
+      [course]="course"
+      [profile]="profile"
+      *ngFor="let course of unavailableCourses"
+      (clicked)="handleButtonClick()" />
   </div>
 </mat-card>
 

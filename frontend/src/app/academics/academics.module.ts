@@ -30,6 +30,7 @@ import { RoomEditorComponent } from './academics-admin/room/room-editor/room-edi
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AcademicPlannerComponent } from './academic-planner/academic-planner.component';
 import { CourseCard } from './academic-planner/course-card.widget';
+import { AcademicCourseSelectComponent } from './academic-planner/academic-course-select/academic-course-select.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CourseCard } from './academic-planner/course-card.widget';
     AdminRoomComponent,
     RoomEditorComponent,
     AcademicPlannerComponent,
-    CourseCard
+    CourseCard,
+    AcademicCourseSelectComponent
   ],
   imports: [
     AcademicsRoutingModule,

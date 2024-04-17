@@ -21,13 +21,15 @@
         </p>
       </div>
 
-      <div *ngIf="!isAdded; else elseBlock">
-        <button mat-raised-button (click)="addCourse()">Add Course</button>
-      </div>
+      <div *ngIf="showAddRemoveButton">
+        <div *ngIf="!isAdded; else elseBlock">
+          <button mat-raised-button (click)="addCourse()">Add Course</button>
+        </div>
 
-      <ng-template #elseBlock>
-        <button mat-raised-button (click)="removeCourse()">Remove Course</button>
-      </ng-template>
+        <ng-template #elseBlock>
+          <button mat-raised-button (click)="removeCourse()">Remove Course</button>
+        </ng-template>
+      </div>
 
     </mat-card-content>
   </mat-card>
