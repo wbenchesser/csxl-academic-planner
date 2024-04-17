@@ -292,3 +292,9 @@ def test_update_profile_then_accept_community_agreement(user_svc: UserService):
     assert updated_user.accepted_community_agreement == False
     updated_user.accepted_community_agreement = True
     assert updated_user.accepted_community_agreement == True
+
+def test_get_courses(user_svc: UserService):
+    """Tests to make sure that the user's list of courses is being received"""
+    current_user = user_svc.get(user.pid)
+    assert current_user is not None
+    assert (user_svc.get_courses(current_user) == [])
