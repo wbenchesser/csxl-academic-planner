@@ -41,7 +41,3 @@ def planner_svc(session: Session, permission_svc: PermissionService):
     """PlannerService fixture"""
     return PlannerService(session, permission_svc)
 
-@pytest.fixture()
-def user_svc(session: Session, permission_svc: PermissionService):
-    """This fixture is used to test the UserService class with a mocked PermissionService."""
-    return UserService(session, permission_svc)
