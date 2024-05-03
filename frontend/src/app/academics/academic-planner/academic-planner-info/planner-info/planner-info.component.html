@@ -1,0 +1,42 @@
+<div class="dialog-content">
+  <h1><marquee> Academic Planner Information</marquee></h1>
+  <p class="dialog-text">
+    The academic planner page serves as the central platform for students to
+    explore potential academic pathways based on their previously completed
+    courses. Its primary function is to experiment with potential academic
+    pathways, rather than serving as an official record of credited courses.
+  </p>
+  <p class="dialog-text">
+    Within this section, information is presented in columns delineating taken,
+    available, and unavailable courses. By considering prerequisites and the
+    student's completed coursework, the page generates a list of eligible
+    courses (the "Available Classes" column) and identifies those for which
+    prerequisites have not yet been fulfilled (the "Unavailable Classes"
+    column). Additionally, users have the option to filter courses based on
+    whether they fulfill BA or BS degree requirements and contribute to major
+    elective credits.
+  </p>
+
+  <div class="flex-style">
+    <div class="circle-bs">BS</div>
+    <div class="shift-down-right">= Bachelor's in Science</div>
+
+    <div class="shift-right-ba">
+      <div class="flex-style">
+        <div class="circle-ba">BA</div>
+        <div class="shift-down-right">= Bachelor's in Arts</div>
+      </div>
+    </div>
+
+    <div class="shift-right-el">
+      <div class="flex-style">
+        <div class="circle-el">EL</div>
+        <div class="shift-down-right">= Elective</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button mat-button (click)="closeDialog()">Close</button>
+  </div>
+</div>

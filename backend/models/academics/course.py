@@ -21,3 +21,5 @@ class Course(BaseModel):
     description: str
     credit_hours: int
     prereqs: str
+    isBA: bool
+    isBS: bool

@@ -1,52 +1,157 @@
-<mat-card>
-  <ng-container *ngTemplateOutlet="tmpl; context: { $implicit: 'My Classes' }">
-  </ng-container>
-  <div class="course-cards">
-    <course-card
-      class="card"
-      [course]="course"
-      [profile]="profile"
-      *ngFor="let course of userCourses"
-      (clicked)="handleButtonClick()" />
-  </div>
-</mat-card>
-<mat-card>
-  <button
-    mat-stroked-button
-    class="link-button"
-    routerLink="/academics/planner/select">
-    Edit Classes
-  </button>
-</mat-card>
+<div class="hstack">
+  <mat-card class="picker">
+    <mat-button-toggle-group
+      name="fontStyle"
+      aria-label="Font Style"
+      (change)="setSelected($event.value)">
+      <mat-button-toggle class="picker-item" value="all">All</mat-button-toggle>
+      <mat-button-toggle class="picker-item" value="BA">BA</mat-button-toggle>
+      <mat-button-toggle class="picker-item" value="BS">BS</mat-button-toggle>
+      <mat-button-toggle class="picker-item" value="EL">EL</mat-button-toggle>
+    </mat-button-toggle-group>
+  </mat-card>
+  <mat-icon class="info-icon" (click)="openDialog()">info</mat-icon>
+</div>
 
-<mat-card>
-  <ng-container
-    *ngTemplateOutlet="tmpl; context: { $implicit: 'Available Classes' }">
-  </ng-container>
-  <div class="course-cards">
-    <course-card
-      class="card"
-      [course]="course"
-      [profile]="profile"
-      *ngFor="let course of availableCourses"
-      (clicked)="handleButtonClick()" />
-  </div>
-</mat-card>
+<div class="hstack">
+  <mat-card class="column">
+    <h1 class="titles">History</h1>
+    <div class="inner-box">
+      <course-card
+        class="card"
+        [course]="course"
+        [isElective]="isCourseElective(course)"
+        [profile]="profile"
+        [showAddRemoveButton]="true"
+        *ngFor="let course of userCourses"
+        (clicked)="handleButtonClick()">
+      </course-card>
+    </div>
+  </mat-card>
 
-<mat-card>
-  <ng-container
-    *ngTemplateOutlet="tmpl; context: { $implicit: 'Unavailable Classes' }">
-  </ng-container>
-  <div class="course-cards">
-    <course-card
-      class="card"
-      [course]="course"
-      [profile]="profile"
-      *ngFor="let course of unavailableCourses"
-      (clicked)="handleButtonClick()" />
-  </div>
-</mat-card>
+  <mat-card class="column">
+    <h1 class="titles">Available Classes</h1>
+    <div class="inner-box" [ngSwitch]="selected">
+      <!-- Case for 'all' -->
+      <ng-container *ngSwitchCase="'all'">
+        <div *ngFor="let course of availableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [showAddRemoveButton]="true"
+            [profile]="profile"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+      <!-- Case for 'BA' -->
+      <ng-container *ngSwitchCase="'BA'">
+        <div *ngFor="let course of availableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [profile]="profile"
+            [showAddRemoveButton]="true"
+            *ngIf="course.isBA"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+      <!-- Case for 'BS' -->
+      <ng-container *ngSwitchCase="'BS'">
+        <div *ngFor="let course of availableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [profile]="profile"
+            [showAddRemoveButton]="true"
+            *ngIf="course.isBS"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+      <!-- Case for isElective-->
+      <ng-container *ngSwitchCase="'EL'">
+        <div *ngFor="let course of availableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [profile]="profile"
+            [showAddRemoveButton]="true"
+            *ngIf="isCourseElective(course)"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+    </div>
+  </mat-card>
 
-<ng-template #tmpl let-text>
-  <h1>{{ text }}</h1>
-</ng-template>
+  <mat-card class="column">
+    <h1 class="titles">Unavailable Classes</h1>
+    <div class="inner-box" [ngSwitch]="selected">
+      <!-- Case for 'all' -->
+      <ng-container *ngSwitchCase="'all'">
+        <div *ngFor="let course of unavailableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [profile]="profile"
+            [showAddRemoveButton]="true"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+      <!-- Case for 'BA' -->
+      <ng-container *ngSwitchCase="'BA'">
+        <div *ngFor="let course of unavailableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [profile]="profile"
+            [showAddRemoveButton]="true"
+            *ngIf="course.isBA"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+      <!-- Case for 'BS' -->
+      <ng-container *ngSwitchCase="'BS'">
+        <div *ngFor="let course of unavailableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [profile]="profile"
+            [showAddRemoveButton]="true"
+            *ngIf="course.isBS"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+      <!-- Case for isElective-->
+      <ng-container *ngSwitchCase="'EL'">
+        <div *ngFor="let course of unavailableCourses">
+          <course-card
+            class="card"
+            [course]="course"
+            [isElective]="isCourseElective(course)"
+            [profile]="profile"
+            [showAddRemoveButton]="true"
+            *ngIf="isCourseElective(course)"
+            (clicked)="handleButtonClick()">
+          </course-card>
+        </div>
+      </ng-container>
+    </div>
+  </mat-card>
+
+  <ng-template #tmpl let-text>
+    <h1>{{ text }}</h1>
+  </ng-template>
+</div>

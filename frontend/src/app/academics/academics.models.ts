@@ -19,6 +19,8 @@ export interface Course {
   description: string;
   credit_hours: number;
   sections: Section[] | null;
+  isBA: boolean;
+  isBS: boolean;
 }
 
 /** Defines a Course Section */

@@ -2,6 +2,7 @@
 The Planner Service allows the API to manipulate courses data in the database.
 """
 
+from typing import List
 from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -34,6 +35,8 @@ class PlannerService:
         """Initializes the database session."""
         self._session = session
         self._permission_svc = permission_svc
+        self._user_svc = user_svc
+        self._course_svc = course_svc
 
     def add_user_course(self, subject: User, course_id: str):
         # print(UserService.get_courses(subject))
@@ -80,20 +83,29 @@ class PlannerService:
         for course in courses:
             courseModels.append(course.to_model())
         return courseModels
-      
-    def get_prereq_status(self, subject: User, course_id: str) -> bool:
-        """
-        Returns a bool for if a given course is available or unavailable
-        to a student based on their taken courses.
-        """
-        # optimize this later :/ embarassing highkey
+
+    def get_available_courses(self, subject: User) -> List[Course]:
+        """Returns List of Courses Available to Take Based On User's Courses"""
+        courses = CourseService.all(self)
+        courseModels: list[Course] = []
         taken_courses = []
         # populate taken_courses with list of user course ids
         for course in self.get_user_courses(subject):
             taken_courses.append(course.id)
-
-        courses = CourseService.all(self)
         for course in courses:
-            if course.id == course_id:
-                return eval(course.prereqs)
-        return False
+            if eval(course.prereqs) and course.id not in taken_courses:
+                courseModels.append(course)
+        return courseModels
+
+    def get_unavailable_courses(self, subject: User):
+        """Returns List of Courses Unavailable to Take Based On User's Courses"""
+        courses = CourseService.all(self)
+        courseModels: list[Course] = []
+        taken_courses = []
+        # populate taken_courses with list of user course ids
+        for course in self.get_user_courses(subject):
+            taken_courses.append(course.id)
+        for course in courses:
+            if not eval(course.prereqs) and course.id not in taken_courses:
+                courseModels.append(course)
+        return courseModels

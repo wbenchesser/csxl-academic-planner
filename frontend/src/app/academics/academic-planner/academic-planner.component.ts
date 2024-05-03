@@ -8,13 +8,16 @@ import { profileResolver } from '/workspace/frontend/src/app/profile/profile.res
 import { courseResolver } from '../academics.resolver';
 import { Profile } from 'src/app/models.module';
 import { UserAdminService } from 'src/app/admin/users/user-admin.service';
+import { ConstantPool } from '@angular/compiler';
+import { MatDialog } from '@angular/material/dialog';
+import { PlannerInfoComponent } from './academic-planner-info/planner-info/planner-info.component';
 
 @Component({
   selector: 'app-academic-planner',
   templateUrl: './academic-planner.component.html',
   styleUrls: ['./academic-planner.component.css']
 })
-export class AcademicPlannerComponent {
+export class AcademicPlannerComponent implements OnInit {
   public static Route = {
     path: 'planner',
     title: 'Academic Planner',
@@ -28,6 +31,7 @@ export class AcademicPlannerComponent {
   public userCourses!: Course[];
   public availableCourses: Course[] = [];
   public unavailableCourses: Course[] = [];
+  public selected: string = 'all';
   /** Store the currently-logged-in user's profile.  */
   public profile: Profile;
 
@@ -35,7 +39,8 @@ export class AcademicPlannerComponent {
   constructor(
     private route: ActivatedRoute,
     public academicsService: AcademicsService,
-    private gearService: NagivationAdminGearService
+    private gearService: NagivationAdminGearService,
+    private dialog: MatDialog
   ) {
     /** Initialize data from resolvers. */
     const data = this.route.snapshot.data as {
@@ -65,41 +70,39 @@ export class AcademicPlannerComponent {
     });
   }
 
+  setSelected(value: string) {
+    this.selected = value;
+  }
+
   populateCourseAvailability() {
-    for (var i = 0; i < this.courses?.length; i++) {
-      ((index) => {
-        this.academicsService
-          .arePrereqsMet(this.courses[index])
-          .subscribe((value) => {
-            if (
-              value &&
-              this.userCourses.find((x) => x.id === this.courses[index].id)
-            ) {
-              // userCourses already populated
-              console.log('found in userCourses!');
-            } else if (
-              value &&
-              //!this.availableCourses.includes(this.courses[index])
-              !this.availableCourses.find(
-                (x) => x.id === this.courses[index].id
-              )
-            ) {
-              this.availableCourses.push(this.courses[index]);
-            } else if (
-              !value &&
-              //!this.availableCourses.includes(this.courses[index])
-              !this.availableCourses.find(
-                (x) => x.id === this.courses[index].id
-              )
-            ) {
-              this.unavailableCourses.push(this.courses[index]);
-            }
-          });
-      })(i);
+    this.academicsService.getUntakenCourses(true).subscribe((value) => {
+      this.availableCourses = value;
+    });
+    this.academicsService.getUntakenCourses(false).subscribe((value) => {
+      this.unavailableCourses = value;
+    });
+  }
+
+  isCourseElective(course: Course) {
+    if (
+      Number(course.number) > 420 &&
+      Number(course.number) != 496 &&
+      Number(course.number) != 690
+    ) {
+      return true;
     }
+    return false;
   }
 
   handleButtonClick() {
     this.getUserCourses();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(PlannerInfoComponent, {
+      width: '60%',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
   }
 }

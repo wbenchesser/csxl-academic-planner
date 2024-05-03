@@ -1,0 +1,70 @@
+.hstack {
+  display: flex;
+  justify-content: start;
+
+}
+
+.column {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  text-align: center; 
+  margin-left: 16px !important;
+}
+
+.inner-box {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 100%;
+}
+
+.link-button {
+  text-decoration: none;
+  padding: 25px;
+}
+
+.link-button:hover {
+  color: #0056b3;
+}
+
+.edit {
+  width: 30%;
+  height: 100%;
+  margin: 16px !important;
+}
+
+.titles {
+  font-size: large;
+  font-family: sans-serif;
+  font-weight: normal;
+}
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 30%;
+  margin: 16px !important;
+}
+
+.picker-item {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 25%;
+}
+
+.mat-mdc-card {
+  margin: 0;
+  max-width: 100%;
+}
+
+.info-icon {
+  transform: scale(1.35);
+  margin-top: 30px;
+  margin-left: 59%;
+}

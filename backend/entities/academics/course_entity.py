@@ -1,7 +1,7 @@
 """Definition of SQLAlchemy table-backed object mapping entity for Course."""
 
 from typing import Self
-from sqlalchemy import Integer, String
+from sqlalchemy import Integer, String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..entity_base import EntityBase
@@ -38,15 +38,16 @@ class CourseEntity(EntityBase):
     credit_hours: Mapped[int] = mapped_column(Integer, default=-1)
     # Prerequisites for the course (for example, a prereq for COMP 210 would be COMP 110)
     prereqs: Mapped[str] = mapped_column(String, default="")
+    # The course is required for the BA
+    isBA: Mapped[bool] = mapped_column(Boolean, default=False)
+    # The course is required for the BS
+    isBS: Mapped[bool] = mapped_column(Boolean, default=False)
 
     # NOTE: This field establishes a one-to-many relationship between the course and section tables.
     sections: Mapped[list["SectionEntity"]] = relationship(
         back_populates="course", cascade="all,delete"
     )
 
-    # planner: Mapped[list["UserCourseEntity"]] = relationship(
-    #     back_populates="course", cascade="all,delete"
-    # )
     users: Mapped[list["UserEntity"]] = relationship(
         secondary=user_course_table, back_populates="courses"
     )
@@ -69,6 +70,8 @@ class CourseEntity(EntityBase):
             description=model.description,
             credit_hours=model.credit_hours,
             prereqs=model.prereqs,
+            isBA=model.isBA,
+            isBS=model.isBS,
         )
 
     def to_model(self) -> Course:
@@ -86,6 +89,8 @@ class CourseEntity(EntityBase):
             description=self.description,
             credit_hours=self.credit_hours,
             prereqs=self.prereqs,
+            isBA=self.isBA,
+            isBS=self.isBS,
         )
 
     def to_details_model(self) -> CourseDetails:
@@ -103,6 +108,8 @@ class CourseEntity(EntityBase):
             description=self.description,
             credit_hours=self.credit_hours,
             prereqs=self.prereqs,
+            isBA=self.isBA,
+            isBS=self.isBS,
             sections=[section.to_model() for section in self.sections],
             users=[user.to_model() for user in self.users],
         )

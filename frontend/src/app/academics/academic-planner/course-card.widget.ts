@@ -3,6 +3,7 @@ import { Course } from '../academics.models';
 import { Profile } from '../../models.module';
 import { AcademicsService } from '../academics.service';
 import { Observable } from 'rxjs';
+import { DetailsWidget } from './details.widget';
 
 @Component({
   selector: 'course-card',
@@ -16,9 +17,12 @@ export class CourseCard {
   @Input() profile?: Profile;
   /** @deprecated Stores the permission values for a profile */
   @Input() profilePermissions!: Map<number, number>;
-
   /** Is course added to profile? */
   isAdded: boolean = false;
+  showDetailsWidget: boolean = false;
+  chevronRotation: number = 0;
+
+  @Input() isElective: boolean = false;
 
   /** Should this card display the add/remove button? */
   @Input() showAddRemoveButton!: boolean;
@@ -51,10 +55,23 @@ export class CourseCard {
     });
   }
 
+  toggleCourse() {
+    if (this.isAdded) {
+      this.removeCourse();
+    } else {
+      this.addCourse();
+    }
+  }
+
   isCourseAdded() {
     this.service.isCourseAdded(this.course).subscribe((value) => {
       this.isAdded = value;
     });
+  }
+
+  toggleDetails() {
+    this.showDetailsWidget = !this.showDetailsWidget;
+    this.chevronRotation = this.showDetailsWidget ? 90 : 0;
   }
 
   // on initialization of page, calls isCourseAdded

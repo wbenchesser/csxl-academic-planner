@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { AcademicsRoutingModule } from './academics-routing.module';
@@ -30,7 +31,8 @@ import { RoomEditorComponent } from './academics-admin/room/room-editor/room-edi
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AcademicPlannerComponent } from './academic-planner/academic-planner.component';
 import { CourseCard } from './academic-planner/course-card.widget';
-import { AcademicCourseSelectComponent } from './academic-planner/academic-course-select/academic-course-select.component';
+import { DetailsWidget } from './academic-planner/details.widget';
+import { PlannerInfoComponent } from './academic-planner/academic-planner-info/planner-info/planner-info.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,7 @@ import { AcademicCourseSelectComponent } from './academic-planner/academic-cours
     RoomEditorComponent,
     AcademicPlannerComponent,
     CourseCard,
-    AcademicCourseSelectComponent
+    DetailsWidget
   ],
   imports: [
     AcademicsRoutingModule,
@@ -57,6 +59,7 @@ import { AcademicCourseSelectComponent } from './academic-planner/academic-cours
     MatDividerModule,
     MatListModule,
     MatExpansionModule,
+    MatButtonToggleModule,
     MatButtonModule,
     MatTableModule,
     MatIconModule,

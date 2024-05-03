@@ -1,36 +1,59 @@
-<!-- eslint-disable prettier/prettier -->
+<mat-card class="left-container" appearance="outlined">
+  <!-- Course Name -->
+  <mat-card-content class="name">
+    <div class="name-container">
+      <!-- Course Code -->
+      <mat-card-title
+        class="number"
+        [matTooltip]="course.title"
+        matTooltipPosition="above">
+        {{ course.subject_code }} {{ course.number }}
+      </mat-card-title>
+    </div>
 
-<mat-card class="card" appearance="outlined">
-    <!-- Course Name -->
-    <mat-card-content class="name">
-      <div class="left-container">
-        <!-- Course Code -->
-        <mat-card-title
-          class="number"
-          [matTooltip]="course.title"
-          matTooltipPosition="above">
-          {{course.subject_code}} {{course.number}}
-        </mat-card-title>
-        
-      </div>
-      <div class="description">
-        <p class="longTooltip"
-          [matTooltip]="course.description"
-          matTooltipPosition="right">
-          Details
-        </p>
+    <!-- Badges Container -->
+    <div class="badges-container">
+      <!-- BS Badge -->
+      <div *ngIf="course.isBS" class="badge">
+        <div class="circle-bs">BS</div>
       </div>
 
-      <div *ngIf="showAddRemoveButton">
-        <div *ngIf="!isAdded; else elseBlock">
-          <button mat-raised-button (click)="addCourse()">Add Course</button>
-        </div>
-
-        <ng-template #elseBlock>
-          <button mat-raised-button (click)="removeCourse()">Remove Course</button>
-        </ng-template>
+      <!-- BA Badge -->
+      <div *ngIf="course.isBA" class="badge">
+        <div class="circle-ba">BA</div>
       </div>
 
-    </mat-card-content>
-  </mat-card>
-  
+      <!-- Elective Badge -->
+      <div *ngIf="isElective" class="badge">
+        <div class="circle-el">EL</div>
+      </div>
+    </div>
+
+    <!-- Container for details widget -->
+    <div class="details-container" *ngIf="showDetailsWidget">
+      <details-box [course]="course"></details-box>
+    </div>
+    <div *ngIf="showAddRemoveButton">
+      <div *ngIf="!isAdded; else elseBlock">
+        <button mat-icon-button (click)="addCourse()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <ng-template #elseBlock>
+        <button mat-icon-button (click)="removeCourse()">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </ng-template>
+    </div>
+    <div class="click-details" (click)="toggleDetails()">
+      <button mat-icon-button>
+        <mat-icon
+          class="chevron-icon"
+          [style.transform]="'rotate(' + chevronRotation + 'deg)'"
+          >keyboard_arrow_right</mat-icon
+        >
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

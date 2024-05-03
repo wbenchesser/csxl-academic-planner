@@ -241,7 +241,7 @@ export class AcademicsService {
     return this.http.get<boolean>(`/api/academics/planner/${course.id}`);
   }
 
-  /** Checks for the widget if a course is already added
+  /** returns the courses a user has added
    * @param
    * @returns {Observable<Course[]>}
    */
@@ -249,7 +249,7 @@ export class AcademicsService {
     return this.http.get<Course[]>('/api/academics/planner');
   }
 
-  /** Checks for the widget if a course is already added
+  /** Checks prereqs for one course
    * @param
    * @returns {Observable<boolean>}
    */
@@ -258,5 +258,28 @@ export class AcademicsService {
     return this.http.get<boolean>(
       `/api/academics/planner/prereqs/${course.id}`
     );
+  }
+
+  /** Checks prereqs for all the courses
+   * @param courses
+   * @returns {Observable<Map<string, boolean>>}
+   */
+  arePrereqsMetAll(): Observable<Map<string, boolean>> {
+    console.log('all prereqs api called');
+    return this.http.get<Map<string, boolean>>(
+      `/api/academics/planner/prereqs`
+    );
+  }
+
+  /** Returns the courses to be put in the available or unavailable lists
+   * @param availableOrUnavailable
+   * @returns {Ovservable<Course[]>}
+   */
+  getUntakenCourses(availableOrUnavailable: boolean) {
+    if (availableOrUnavailable) {
+      return this.http.get<Course[]>('api/academics/planner/available');
+    } else {
+      return this.http.get<Course[]>('api/academics/planner/unavailable');
+    }
   }
 }

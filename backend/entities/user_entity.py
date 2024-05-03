@@ -69,9 +69,6 @@ class UserEntity(EntityBase):
     # All of the selected courses for the given user.
     # NOTE: This field establishes a many-to-many relationship between the users and courses table.
     #       and uses the "user_course_entity" table as the join table.
-    # planner: Mapped[list["UserCourseEntity"]] = relationship(
-    #     back_populates="user", cascade="all,delete"
-    # )
     courses: Mapped[list["CourseEntity"]] = relationship(
         secondary=user_course_table, back_populates="users"
     )

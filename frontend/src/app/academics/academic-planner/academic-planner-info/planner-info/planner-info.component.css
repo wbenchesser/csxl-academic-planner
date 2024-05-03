@@ -1,0 +1,70 @@
+.dialog-content {
+    margin: 10px; 
+    color: grey;
+  }
+
+.dialog-text {
+
+}
+
+.button-container {
+  position: absolute; 
+  bottom: 10px; /* Adjust bottom position */
+  right: 10px; /* Adjust right position */
+}
+
+.circle-bs {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #256123;
+  color: white;
+  text-align: center;
+  line-height: 30px; /* Vertically center the text */
+  font-weight: bold;
+}
+
+.circle-ba {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #4885c6;
+    color: white;
+    text-align: center;
+    line-height: 30px; 
+    font-weight: bold;
+  }
+
+.circle-el {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #620cb6;
+  color: white;
+  text-align: center;
+  line-height: 30px; 
+  font-weight: bold;
+}
+
+.flex-style {
+    display: flex; 
+    flex-direction: row;
+    justify-content: start;
+  }
+
+.shift-down-right {
+    position: relative;
+    top: 5px;
+
+    margin-left: 5px;
+}
+
+.shift-right-ba {
+    position: relative;
+    left: 10px;
+}
+
+.shift-right-el {
+    position: relative;
+    left: 20px;
+}

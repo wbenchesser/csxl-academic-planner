@@ -32,7 +32,9 @@ export const courseResolver: ResolveFn<Course | undefined> = (route, state) => {
       title: '',
       description: '',
       credit_hours: -1,
-      sections: null
+      sections: null,
+      isBA: false,
+      isBS: false
     };
   }
 
