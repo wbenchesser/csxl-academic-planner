@@ -70,7 +70,7 @@ class PlannerService:
 
     def is_course_added(self, subject: User, course_id: str):
         """Fetches a user's courses and returns true if course_id is present"""
-        courses = UserService.get_courses(self, subject)
+        courses = UserService.get_courses(self, subject, subject)
         for course in courses:
             if course.id == course_id:
                 return True
@@ -78,7 +78,7 @@ class PlannerService:
 
     def get_user_courses(self, subject: User):
         """Returns a user's courses as a List[Course]"""
-        courses = UserService.get_courses(self, subject)
+        courses = UserService.get_courses(self, subject, subject)
         courseModels: list[Course] = []
         for course in courses:
             courseModels.append(course.to_model())

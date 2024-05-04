@@ -25,35 +25,35 @@ from .course_data import fake_data_fixture as insert_course_fake_data
 
 # Import the fake model data in a namespace for test assertions
 from . import course_data
-from ..user_data import user
+from ..user_data import user, root
 
 
 def test_add_user_course(planner_svc: PlannerService, user_svc: UserService):
     current_user = user_svc.get(user.pid)
     assert current_user is not None
     planner_svc.add_user_course(current_user, "comp110")
-    print(user_svc.get_courses(current_user))
+    print(user_svc.get_courses(current_user, current_user))
     # Checks that the specific class 'comp110' is added to user's courses
-    assert user_svc.get_courses(current_user)[0].to_model() == course_data.comp_110
+    assert user_svc.get_courses(current_user, current_user)[0].to_model() == course_data.comp_110
 
 
 def test_delete_user_course(planner_svc: PlannerService, user_svc: UserService):
     current_user = user_svc.get(user.pid)
     assert current_user is not None
     planner_svc.add_user_course(current_user, "comp110")
-    print(user_svc.get_courses(current_user))
+    print(user_svc.get_courses(current_user, current_user))
     # Checks that the user's course list has in fact changed and has what is added
-    assert user_svc.get_courses(current_user)[0].to_model() == course_data.comp_110
+    assert user_svc.get_courses(current_user, current_user)[0].to_model() == course_data.comp_110
     planner_svc.delete_user_course(current_user, "comp110")
     # Checks that that same list now is empty
-    assert user_svc.get_courses(current_user) == []
+    assert user_svc.get_courses(current_user, current_user) == []
 
 
 def test_is_course_added(planner_svc: PlannerService, user_svc: UserService):
     current_user = user_svc.get(user.pid)
     assert current_user is not None
     planner_svc.add_user_course(current_user, "comp110")
-    print(user_svc.get_courses(current_user))
+    print(user_svc.get_courses(current_user, current_user))
     assert planner_svc.is_course_added(current_user, "comp110")
 
 
@@ -61,7 +61,7 @@ def test_get_user_courses(planner_svc: PlannerService, user_svc: UserService):
     current_user = user_svc.get(user.pid)
     assert current_user is not None
     planner_svc.add_user_course(current_user, "comp110")
-    print(user_svc.get_courses(current_user))
+    print(user_svc.get_courses(current_user, current_user))
     assert planner_svc.get_user_courses(current_user) == [course_data.comp_110]
 
 
@@ -69,13 +69,11 @@ def test_get_available_courses(planner_svc: PlannerService, user_svc: UserServic
     current_user = user_svc.get(user.pid)
     assert current_user is not None
     planner_svc.add_user_course(current_user, "comp110")
+    planner_svc.add_user_course(current_user, "math231")
     exists = False
     for course in planner_svc.get_available_courses(current_user):
         if course.id == "comp210":
             exists = True
-    for course in planner_svc.get_available_courses(current_user):
-        if course.id == "comp110":
-            exists = False
     assert exists
 
 
@@ -98,7 +96,7 @@ def test_add_added_course(planner_svc: PlannerService, user_svc: UserService):
     current_user = user_svc.get(user.pid)
     assert current_user is not None
     planner_svc.add_user_course(current_user, "comp110")
-    assert len(user_svc.get_courses(current_user)) == 1
+    assert len(user_svc.get_courses(current_user, current_user)) == 1
     with pytest.raises(IntegrityError):
         planner_svc.add_user_course(current_user, "comp110")
 

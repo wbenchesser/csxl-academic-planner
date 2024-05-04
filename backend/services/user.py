@@ -188,7 +188,7 @@ class UserService:
         self._session.commit()
         return entity.to_model()
 
-    def get_courses(self, subject: User) -> List[CourseEntity]:
+    def get_courses(self, subject: User, user: User) -> List[CourseEntity]:
         """Retrieves a User's list of courses.
 
         For this method, imported List. We okay with that?
@@ -205,6 +205,9 @@ class UserService:
         """
         # Joins CourseEntity and UserEntity via user_course_table association table.
         # Queries CourseEntities in user_course_table and filters by userid.
+        
+        if subject != user:
+            self._permission.enforce(subject, "user.get_courses", f"user/")
 
         query = (
             self._session.query(CourseEntity)
