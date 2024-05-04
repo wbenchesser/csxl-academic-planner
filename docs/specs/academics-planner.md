@@ -35,7 +35,7 @@ The following pages have been added and are available for all users of the CSXL 
 
 <!--This is NOT our image. We will put in our own image when we've finished implementation-->
 
-![Section offerings](../images/specs/academics/section-offerings.png)
+![Academic Planner](../images/specs/academics/academic-planner.png)
 
 The academic planner page serves as the central platform for students to explore potential academic pathways based on their previously completed courses. Its primary function is to experiment with potential academic pathways, rather than serving as an official record of credited courses. The page is accessible via the `/academics/planner` route. Within this section, information is presented in columns delineating taken, available, and unavailable courses. By considering prerequisites and the student's completed coursework, the page generates a list of eligible courses (the "Available Classes" column) and identifies those for which prerequisites have not yet been fulfilled (the "Unavailable Classes" column). Additionally, users have the option to filter courses based on whether they fulfill BA or BS degree requirements and contribute to major elective credits.
 
