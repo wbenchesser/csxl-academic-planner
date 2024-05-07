@@ -1,5 +1,5 @@
 .dialog-content {
-    margin: 10px; 
+    margin: 15px; 
     color: grey;
   }
 
@@ -9,8 +9,8 @@
 
 .button-container {
   position: absolute; 
-  bottom: 10px; /* Adjust bottom position */
-  right: 10px; /* Adjust right position */
+  bottom: 15px; /* Adjust bottom position */
+  right: 15px; /* Adjust right position */
 }
 
 .circle-bs {

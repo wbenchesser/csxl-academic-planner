@@ -50,7 +50,8 @@ import { PlannerInfoComponent } from './academic-planner/academic-planner-info/p
     RoomEditorComponent,
     AcademicPlannerComponent,
     CourseCard,
-    DetailsWidget
+    DetailsWidget,
+    PlannerInfoComponent
   ],
   imports: [
     AcademicsRoutingModule,
